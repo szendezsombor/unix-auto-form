@@ -1,0 +1,311 @@
+<form class="card form-card" [formGroup]="form" (ngSubmit)="submit()">
+  <div><h1 class="form-primary-text-grey"><b>Jelentkező adatai</b></h1></div>
+  <div class="info"><h3 class="form-tertiary-text"><b>A csillaggal (*) jelzett mezők kitöltése kötlező!</b></h3></div>
+
+  <!-- Hr -->
+  <div class="form-card__merged-row">
+    <hr>
+  </div>
+
+  <!--  NÉV mező  -->
+  <div class="form-card__form-field">
+    <h3 class="form-tertiary-text-grey">Név*</h3>
+    <div class="input-group ">
+      <input type="text"
+             class="form-control"
+             aria-describedby="basic-addon1"
+             formControlName="name"
+             [class.error]="name.touched && name.invalid">
+    </div>
+  </div>
+
+  <!--  Hirdetés éretüsülés mező  -->
+  <div class="form-card__form-field">
+    <h3 class="form-tertiary-text-grey">Honnan értesült a hirdetésről?*</h3>
+    <select class="custom-select"
+            formControlName="howDidYouFindOut"
+            [class.error]="howDidYouFindOut.touched && howDidYouFindOut.invalid">
+      <option value="-1" selected>Válasszon</option>
+      <option [value]="site.value" *ngFor="let site of howDidYouFindOutArray">{{ site.placeholder }}</option>
+    </select>
+  </div>
+
+  <!--  Telefon szám  -->
+  <div class="form-card__form-field" formGroupName="phone">
+    <div class="phone-field">
+      <!--  Ország azonositó pl.: +36    -->
+      <div class="phone-field__country">
+        <h3 class="form-tertiary-text-grey">Országhivó*</h3>
+        <select class="custom-select"
+                formControlName="phoneCountry"
+                [class.error]="phoneCountry.touched && phoneCountry.invalid">
+          <option [value]="pc.value" *ngFor="let pc of phoneCountryArray">{{ pc.placeholder }}</option>
+        </select>
+      </div>
+
+      <!--  Telefon szám pl.:20 111 1111    -->
+      <div class="phone-field__number">
+        <h3 class="form-tertiary-text-grey">Mobil telefonszám*</h3>
+        <div class="input-group">
+          <input type="tel"
+                 class="form-control"
+                 aria-describedby="basic-addon1"
+                 formControlName="phoneNumber"
+                 [class.error]="phoneNumber.touched && phoneNumber.invalid">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--  Unix code mező  -->
+  <div class="form-card__form-field" (focusout)="focusChange(false)">
+
+    <h3 class="form-tertiary-text-grey">Ha kollégánk ajánlotta a poziciót, úgy adja meg a Unix kódját</h3>
+    <div class="input-group">
+      <input type="text"
+             class="form-control"
+             placeholder="Ajánló Unix dolgozó kódja"
+             aria-describedby="basic-addon1"
+             formControlName="unixCode"
+             (keyup)="updateTypeHead($event)"
+             (focusin)="focusChange(true)">
+    </div>
+    <div class="typeahead-container" *ngIf="isFocused && filteredUnixCode" (mouseenter)="overChange(true)"
+         (mouseleave)="overChange(false)">
+      <button class="list-group-item list-group-item-action typeahead-item"
+              (click)="setUnixCode(filteredUnixCode?.placeholder)">{{ filteredUnixCode?.placeholder }}</button>
+    </div>
+  </div>
+
+  <!--  Születési dátum szám  -->
+  <div class="form-card__form-field" formGroupName="birthDate">
+    <div class="birth-date-field">
+      <!--   Év   -->
+      <div class="birth-date-field__year">
+        <h3 class="form-tertiary-text-grey">Születési év*</h3>
+        <div class="input-group">
+          <input type="number"
+                 class="form-control"
+                 aria-describedby="basic-addon1"
+                 formControlName="year"
+                 [class.error]="birthYear.touched && birthYear.invalid">
+        </div>
+      </div>
+
+      <!--   Hónap   -->
+      <div class="birth-date-field__month">
+        <h3 class="form-tertiary-text-grey">Hónap*</h3>
+        <select class="custom-select"
+                formControlName="month"
+                [class.error]="birthMonth.touched && birthMonth.invalid">
+          <option [value]="month.value" *ngFor="let month of monthArray">{{ month.placeholder }}</option>
+        </select>
+      </div>
+
+      <!--   Nap   -->
+      <div class="birth-date-field__day">
+        <h3 class="form-tertiary-text-grey">Nap*</h3>
+        <select class="custom-select"
+                formControlName="day"
+                [class.error]="birthDay.touched && birthDay.invalid">
+          <option [value]="day.value" *ngFor="let day of dayArray">{{ day.placeholder }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Települési adatok -->
+  <div class="form-card__merged-column-residence" formGroupName="residence">
+    <div class="residence-field">
+      <!--   Megye     -->
+      <div class="form-card__form-field">
+        <div class="residence-field__county">
+          <h3 class="form-tertiary-text-grey">Melyik településről járna dolgozni?*</h3>
+          <select class="custom-select"
+                  (change)="checkCounty()"
+                  formControlName="county"
+                  [class.error]="county.touched && county.invalid">
+            <option value="-1" selected>Válasszon megyét</option>
+            <option [value]="county.value" *ngFor="let county of countyArray">{{ county.placeholder }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!--   Város     -->
+      <div class="form-card__form-field">
+        <div class="residence-field__city">
+          <h3 class="form-tertiary-text-grey">Válasszon települést / kerületet*</h3>
+          <select class="custom-select"
+                  formControlName="city"
+                  [class.error]="city.touched && city.invalid">
+            <option value="-1" selected>Válasszon várost</option>
+            <option [value]="city.value" *ngFor="let city of cityArray">{{ city.placeholder }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--  Email cim mező  -->
+  <div class="form-card__form-field">
+    <h3 class="form-tertiary-text-grey">Email*</h3>
+    <div class="input-group">
+      <input type="text"
+             class="form-control"
+             aria-describedby="basic-addon1"
+             formControlName="email"
+             [class.error]="email.touched && email.invalid">
+    </div>
+  </div>
+
+  <!-- POPUP TELEPHELYEK -->
+  <div class="form-card__merged-column-site">
+    <div class="site-position-field">
+      <div class="form-card__form-field">
+        <div class="site-position-field__position">
+          <h3 class="form-tertiary-text-grey">Az alábbi helyekre keresünk munkatársakat <span
+            class="form-tertiary-text"><b>{{position}}</b></span> pozicióba</h3>
+        </div>
+      </div>
+      <div class="form-card__form-field">
+        <div class="site-position-field__site">
+          <button type="button" class="btn btn-primary" (click)="showModal()">Telephelyek kiválasztása</button>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <app-modal [isShown]="isModalShown" (saveChange)="modalChanges($event)"></app-modal>
+  </div>
+
+  <!--  Bruttó bérigény mező  -->
+  <div class="form-card__form-field">
+    <h3 class="form-tertiary-text-grey">Bruttó bérigénye (csak számjegyek)*</h3>
+    <div class="input-group">
+      <input type="number"
+             class="form-control"
+             aria-describedby="basic-addon1"
+             min="0"
+             formControlName="income"
+             [class.error]="income.touched && income.invalid">
+    </div>
+  </div>
+
+  <!--  Jogositvány éve mező  -->
+  <div class="form-card__form-field">
+    <h3 class="form-tertiary-text-grey">Melyik évben szerezte a jogositványát?*</h3>
+    <div class="input-group">
+      <input type="number"
+             class="form-control"
+             aria-describedby="basic-addon1"
+             formControlName="drivingLicenseYear"
+             [class.error]="drivingLicenseYear.touched && drivingLicenseYear.invalid">
+    </div>
+  </div>
+
+  <!-- Spacing -->
+  <div class="form-card__merged-row">
+    <div class="spacing"></div>
+  </div>
+
+  <!-- UPLOAD szekció  -->
+  <div class="form-card__form-field">
+    <h1 class="form-primary-text-grey"><b>Dokumentumok feltöltése</b></h1>
+  </div>
+
+  <!-- Hr -->
+  <div class="form-card__merged-row">
+    <hr>
+  </div>
+
+  <!-- Feltöltendő fájlok  -->
+  <div class="form-card__merged-row">
+    <div class="upload-requirements">
+      <!--  Fénykép    -->
+      <div class="upload-requirements__item">
+        <div class="upload-requirements__icon">
+          <i class="far fa-user-circle"></i>
+        </div>
+        <div class="upload-requirements__text">
+          <span><b>Fénykép</b> (nem kötelező)</span>
+        </div>
+      </div>
+
+      <!--  Önéletrajz    -->
+      <div class="upload-requirements__item">
+        <div class="upload-requirements__icon">
+          <i class="far fa-file-alt"></i>
+        </div>
+        <div class="upload-requirements__text">
+          <span><b>Önéletrajz</b> (kötelező)</span>
+        </div>
+      </div>
+
+      <!--  Motivációs levél    -->
+      <div class="upload-requirements__item">
+        <div class="upload-requirements__icon">
+          <i class="fas fa-file-signature"></i>
+        </div>
+        <div class="upload-requirements__text">
+          <span><b>Motivációs levél</b> (nem kötelező)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hr -->
+  <div class="form-card__merged-row">
+    <hr>
+  </div>
+
+  <!-- Fájl tipusok  -->
+  <div class="form-card__merged-row">
+    <span class="form-tertiary-text"><b>Engedélyezett formátumok:</b> BMP,JPG,GIF,PNG,PDF,DOC,DOCX,ODT,RTF,TXT,JPEG,XLS,XPS,XLSX</span>
+  </div>
+
+  <!-- Feltöltési mező -->
+  <div class="form-card__merged-row">
+    <app-drag-drop-upload (newFilesEvent)="uploadFiles($event)"></app-drag-drop-upload>
+  </div>
+
+  <div class="form-card__merged-row" *ngIf="files && files.length > 0">
+    <h1 class="form-tertiary-text">Uploaded files:</h1>
+    <div class="uploaded-files">
+      <div class="uploaded-file" *ngFor="let file of files">
+        <div class="uploaded-file__icon">
+          <i class="far fa-file-alt"></i>
+        </div>
+        <div class="uploaded-file__text">
+          {{ file.name }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkbox feltételeknek -->
+  <div class="form-card__merged-row">
+    <div class="appliance-box">
+      <div>
+        <input type="checkbox"
+               aria-label="check it"
+               formControlName="agree">
+      </div>
+      <div>
+        <span class="form-tertiary-text">Igen elfogadom az <b>Adatkezelési szabályzatot</b> és az <b>Adatvédelmi Nyilatkozatot</b></span>
+      </div>
+    </div>
+    <div *ngIf="agree.touched && agree.invalid" class="error-1">
+      <i class="fas fa-exclamation-triangle"></i><b> El kell fogadnia a jelentkezéshez</b>
+    </div>
+  </div>
+
+  <!-- Submit button -->
+  <div class="form-card__merged-row">
+    <button type="submit" class="btn btn-primary btn-block"
+            [disabled]="form.invalid || !(files.length > 0) || !(selectedSites.length > 0)">Jelentkezem
+    </button>
+  </div>
+</form>
+
+
+
+

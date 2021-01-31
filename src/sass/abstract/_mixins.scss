@@ -1,0 +1,7 @@
+@mixin heading($color, $font-size) {
+  display: inline-block;
+  color: $color;
+  font-size: $font-size;
+  padding: 0.2rem;
+  margin: 0;
+}

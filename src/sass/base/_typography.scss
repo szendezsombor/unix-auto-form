@@ -1,0 +1,23 @@
+.form-primary-text {
+  @include heading($color-black, $primary-font-size);
+  &-grey {
+    @include heading($color-grey, $primary-font-size);
+  }
+}
+
+.form-secondary-text {
+  @include heading($color-black, $secondary-font-size);
+
+  &-grey {
+    @include heading($color-grey, $secondary-font-size);
+  }
+}
+
+.form-tertiary-text {
+  @include heading($color-black, $tertiary-font-size);
+
+  &-grey {
+    @include heading($color-grey, $tertiary-font-size);
+  }
+}
+

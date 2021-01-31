@@ -1,0 +1,220 @@
+@import "src/styles";
+
+.form-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 80%;
+  padding: $default-form-padding 2rem;
+  margin: 2rem auto;
+  border-top: solid 0.2rem $color-primary;
+  align-items: end;
+  overflow: hidden;
+  //grid-gap: 1rem;
+
+  &__merged-row {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    padding: $default-form-padding;
+    overflow: hidden;
+  }
+
+  &__merged-column-residence {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 5;
+    grid-row-end: 7;
+    padding: 0;
+  }
+
+  &__merged-column-site {
+    height: 100%;
+    position: relative;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 7;
+    grid-row-end: 9;
+    padding: 0;
+  }
+
+  &__form-field {
+    padding: $default-form-padding;
+  }
+
+  .phone-field {
+    display: flex;
+    flex-direction: row;
+
+    &__country {
+      width: fit-content;
+      margin-right: 1rem;
+    }
+
+    &__number {
+      width: 100%;
+    }
+  }
+
+  .birth-date-field {
+    display: flex;
+    flex-direction: row;
+
+    &__year {
+      width: fit-content;
+      align-self: center;
+      margin: 0 1rem 0 0;
+    }
+
+    &__month {
+      width: 100%;
+      align-self: center;
+      margin-right: 1rem;
+    }
+
+    &__day {
+      width: fit-content;
+      align-self: center;
+    }
+  }
+
+  .residence-field {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    &__county {
+      height: 50%;
+    }
+
+    &__city {
+      height: 50%;
+    }
+  }
+
+  .site-position-field {
+    position: absolute;
+    bottom: 0;
+
+    &__position {
+      height: 50%;
+    }
+
+    &__site {
+      height: 50%;
+    }
+  }
+
+  .upload-requirements {
+    display: flex;
+    flex-direction: row;
+
+    &__item {
+      display: flex;
+      flex-direction: row;
+      padding: $default-form-padding;
+      width: 33%;
+    }
+
+    &__icon {
+      font-size: 2.5rem;
+      line-height: 1.4rem;
+      padding: 0.2rem;
+    }
+
+    &__text {
+      display: grid;
+      align-items: center;
+      width: 75%;
+      font-size: 1.2rem;
+      padding: 0.2rem;
+      vertical-align: middle;
+    }
+  }
+
+  .upload-field {
+    width: 100%;
+    padding: 4rem;
+    border: dashed 0.2rem $color-grey;
+    border-radius: 20px;
+    text-align: center;
+    transition: .2s ease;
+
+    &:hover {
+      border-color: rgba($color-black, 0.8);
+    }
+  }
+
+  .uploaded-files {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    overflow: auto;
+
+
+    .uploaded-file {
+      width: fit-content;
+      border: solid 1px $color-black;
+      padding: $default-form-padding;
+      border-radius: 20px;
+      margin-right: 1rem;
+
+      &__icon {
+        width: fit-content;
+        margin: auto;
+        font-size: 3rem;
+      }
+
+      &__text {
+        max-width: 10rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 1.4rem;
+        text-align: center;
+      }
+    }
+  }
+
+  .appliance-box {
+    display: grid;
+    grid-template-columns: auto 100%;
+    padding: 0.4rem;
+  }
+
+  .info {
+    text-align: right;
+  }
+
+  .error {
+    border-color: red;
+  }
+
+  .error-1 {
+    width: 100%;
+    padding: 2rem;
+    border: solid 0.2rem red;
+    border-radius: 2rem;
+    color: red;
+  }
+
+  .spacing {
+    height: 2rem;
+  }
+
+  .typeahead-container {
+    display: block;
+    position: relative;
+
+    .typeahead-item {
+      font-size: 1rem;
+      top: 0;
+      left: 0;
+      position: absolute;
+      z-index: 1;
+      &::after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+    }
+  }
+}
