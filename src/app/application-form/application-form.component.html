@@ -1,6 +1,11 @@
 <form class="card form-card" [formGroup]="form" (ngSubmit)="submit()">
-  <div><h1 class="form-primary-text-grey"><b>Jelentkező adatai</b></h1></div>
-  <div class="info"><h3 class="form-tertiary-text"><b>A csillaggal (*) jelzett mezők kitöltése kötlező!</b></h3></div>
+  <div class="form-card__merged-row">
+    <div class="form-card__heading">
+      <div class="primary-heading"><h1 class="form-primary-text-grey"><b>Jelentkező adatai</b></h1></div>
+      <div class="secondary-heading"><h3 class="form-tertiary-text"><b>A csillaggal (*) jelzett mezők kitöltése kötlező!</b></h3>
+      </div>
+    </div>
+  </div>
 
   <!-- Hr -->
   <div class="form-card__merged-row">
@@ -150,7 +155,7 @@
   <div class="form-card__form-field">
     <h3 class="form-tertiary-text-grey">Email*</h3>
     <div class="input-group">
-      <input type="text"
+      <input type="email"
              class="form-control"
              aria-describedby="basic-addon1"
              formControlName="email"
@@ -170,11 +175,11 @@
       <div class="form-card__form-field">
         <div class="site-position-field__site">
           <button type="button" class="btn btn-primary" (click)="showModal()">Telephelyek kiválasztása</button>
+          <!-- Modal -->
+          <app-modal [isShown]="isModalShown" (saveChange)="modalChanges($event)"></app-modal>
         </div>
       </div>
     </div>
-    <!-- Modal -->
-    <app-modal [isShown]="isModalShown" (saveChange)="modalChanges($event)"></app-modal>
   </div>
 
   <!--  Bruttó bérigény mező  -->
