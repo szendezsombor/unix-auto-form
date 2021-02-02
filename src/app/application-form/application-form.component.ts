@@ -43,7 +43,7 @@ export class ApplicationFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isModalShown = true;
+    this.isModalShown = false;
     this.isFocused = false;
     this.isMouseOverOption = false;
     this.position = 'Alkatrész Kiszállitó';

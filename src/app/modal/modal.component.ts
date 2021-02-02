@@ -1,31 +1,28 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {DataViewModel} from '../data-view.model';
+import {SiteService} from './site.service';
 
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss']
 })
-export class ModalComponent implements OnInit {
+export class ModalComponent implements OnInit, AfterViewInit {
   @Input() isShown: boolean;
   @Output() saveChange: EventEmitter<number[]> = new EventEmitter<number[]>();
-  sites: DataViewModel[] = [
-    {value: 0, placeholder: 'Eplényi telphely'},
-    {value: 1, placeholder: 'Masik telphely'},
-    {value: 2, placeholder: 'Harmadik telphely'},
-    {value: 3, placeholder: 'Negyedi telphely'},
-    {value: 4, placeholder: 'Ötödik telphely'},
-    {value: 5, placeholder: 'Hatodik telphely'},
-    {value: 6, placeholder: 'Hetedik telphely'},
-    {value: 7, placeholder: 'Nyolcadik telphely'},
-  ];
+  @ViewChild('infList') infList: ElementRef;
+  @ViewChild('infListFooter') infListFooter: ElementRef;
+  private intersectionObserver: IntersectionObserver;
+  sites: DataViewModel[];
 
   checkedValues: number[] = [];
 
-  constructor() {
+  constructor(private siteService: SiteService) {
+    this.isShown = true;
   }
 
   ngOnInit(): void {
+    this.sites = this.siteService.getSites();
   }
 
   addToChecked(event: Event, value: number): void {
@@ -45,5 +42,20 @@ export class ModalComponent implements OnInit {
   close(): void {
     this.saveChange.emit(this.checkedValues);
     this.isShown = false;
+  }
+
+  ngAfterViewInit(): void {
+    const options = {
+      root: this.infList.nativeElement,
+      rootMargin: '0px',
+      threshold: 1
+    };
+    this.intersectionObserver = new IntersectionObserver(this.lazyLoad, options);
+    this.intersectionObserver.observe(this.infListFooter.nativeElement);
+  }
+
+  lazyLoad = (_: any) => {
+    // Fetch more data from service...
+    this.sites = this.sites.concat(this.siteService.getSites());
   }
 }

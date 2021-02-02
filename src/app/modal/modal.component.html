@@ -14,16 +14,18 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="options">
+        <div class="options" #infList>
           <div class="input-group" *ngFor="let site of sites">
             <div class="input-group-prepend">
               <div class="input-group-text">
                 <input type="checkbox" aria-label="Checkbox for following text input" [value]="site.value"
                        (change)="addToChecked($event, site.value)">
               </div>
+
             </div>
             <span class="form-control"> {{site.placeholder}} </span>
           </div>
+          <div #infListFooter></div>
         </div>
       </div>
       <div class="modal-footer">
