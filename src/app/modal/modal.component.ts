@@ -17,9 +17,7 @@ export class ModalComponent implements OnInit, AfterViewInit {
 
   checkedValues: number[] = [];
 
-  constructor(private siteService: SiteService) {
-    this.isShown = true;
-  }
+  constructor(private siteService: SiteService) {}
 
   ngOnInit(): void {
     this.sites = this.siteService.getSites();

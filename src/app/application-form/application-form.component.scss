@@ -9,7 +9,7 @@
   border-top: solid 0.2rem $color-primary;
   align-items: end;
   overflow: hidden;
-  //grid-gap: 1rem;
+  max-width: 1000px;
 
   &__heading {
     display: flex;
