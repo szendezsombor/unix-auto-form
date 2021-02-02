@@ -101,8 +101,18 @@ export class ApplicationFormComponent implements OnInit {
   uploadFiles(files: File[]): void {
     this.files = [];
     for (const file of files) {
-      this.files.push(file);
+      if (this.checkMimeType(file)){
+        this.files.push(file);
+      }
     }
+  }
+
+  private checkMimeType(file: File): boolean {
+    const validMimeTypes = ['BMP', 'JPG', 'GIF', 'PNG', 'PDF', 'DOC', 'DOCX', 'ODT', 'RTF', 'TXT', 'JPEG', 'XLS', 'XPS', 'XLSX'];
+    const splittedFileName = file.name.split('.');
+    const fileMimeType = splittedFileName[splittedFileName.length - 1].toUpperCase();
+
+    return validMimeTypes.includes(fileMimeType);
   }
 
   // Modal
