@@ -1,4 +1,7 @@
 <div class="dropzone" [class.fileover]="fileOver">
   <input type="file" #fileDropRef id="fileDropRef" multiple (change)="fileBrowserHandler($event.target.files)">
-  <h3>Kattints <label for="fileDropRef">ide</label>, vagy húzza ide a feltöltendő file-t</h3>
+  <h3 *ngIf="width > 800; else uploadButton">Kattints <label for="fileDropRef">ide</label>, vagy húzza ide a feltöltendő file-t</h3>
+  <ng-template #uploadButton>
+    <button type="button" class="btn btn-info">Fájl feltöltés</button>
+  </ng-template>
 </div>

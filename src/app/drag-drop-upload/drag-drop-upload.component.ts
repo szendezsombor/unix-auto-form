@@ -10,9 +10,15 @@ export class DragDropUploadComponent implements OnInit {
 
   @Output() newFilesEvent = new EventEmitter<FileList>();
   @HostBinding('class.fileover') fileOver: boolean;
+  width: number;
   constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.width = window.innerWidth;
+    window.addEventListener('resize', () => {
+      this.width = window.innerWidth;
+    });
+  }
 
   @HostListener('dragover', ['$event'])
   onDragOver(evt: Event): void {

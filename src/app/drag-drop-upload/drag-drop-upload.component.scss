@@ -31,3 +31,20 @@
   color: $color-primary;
   opacity: 1;
 }
+
+@media screen and (max-width: 800px) {
+  .dropzone {
+    padding: $default-form-padding;
+    border: none;
+    opacity: 1;
+    transition: 0.2s ease;
+
+    button {
+      padding: 1rem;
+    }
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}
