@@ -137,7 +137,7 @@
       display: grid;
       align-items: center;
       width: 75%;
-      font-size: 1.2rem;
+      font-size: 1rem;
       padding: 0.2rem;
       vertical-align: middle;
     }
@@ -219,6 +219,29 @@
       left: 0;
       position: absolute;
       z-index: 1;
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 2.5rem;
+        height: 3rem;
+        margin-right: 1rem;
+        border-radius: 20px;
+      }
+
+      &__name {
+        font-size: 1.6rem;
+        line-height: 3rem;
+        font-weight: bold;
+      }
+
+      &__id {
+        font-size: 1.6rem;
+        line-height: 3rem;
+        color: $color-grey;
+        margin-left: 1rem;
+      }
+
       &::after {
         content: "";
         display: table;
@@ -228,7 +251,7 @@
   }
 }
 
-@media screen and (max-width: 800px){
+@media screen and (max-width: 800px) {
   .form-card {
     display: grid;
     grid-template-columns: 100%;
@@ -263,6 +286,16 @@
     }
 
     &__heading {
+      flex-direction: column;
+      text-align: center;
+
+      .secondary-heading {
+        text-align: center;
+      }
+    }
+
+    .upload-requirements__item {
+      display: flex;
       flex-direction: column;
     }
   }

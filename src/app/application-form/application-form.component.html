@@ -78,7 +78,11 @@
     <div class="typeahead-container" *ngIf="isFocused && filteredUnixCode" (mouseenter)="overChange(true)"
          (mouseleave)="overChange(false)">
       <button class="list-group-item list-group-item-action typeahead-item"
-              (click)="setUnixCode(filteredUnixCode?.placeholder)">{{ filteredUnixCode?.placeholder }}</button>
+              (click)="setUnixCode(filteredUnixCode?.placeholder)">
+        <img [src]="filteredUnixCode.img">
+        <span class="typeahead-item__name">{{ filteredUnixCode.name }}</span>
+        <span class="typeahead-item__id">{{ '#' +filteredUnixCode.placeholder }}</span>
+      </button>
     </div>
   </div>
 

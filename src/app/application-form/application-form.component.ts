@@ -31,7 +31,7 @@ export class ApplicationFormComponent implements OnInit {
   // Typeahead
   isFocused: boolean;
   isMouseOverOption: boolean;
-  filteredUnixCode: DataViewModel;
+  filteredUnixCode: any;
 
   position: string;
   form: FormGroup;
@@ -43,7 +43,7 @@ export class ApplicationFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isModalShown = false;
+    this.isModalShown = true;
     this.isFocused = false;
     this.isMouseOverOption = false;
     this.position = 'Alkatrész Kiszállitó';
